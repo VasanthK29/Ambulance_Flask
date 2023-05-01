@@ -1,20 +1,16 @@
 # Importing flask module in the project is mandatory
 # An object of Flask class is our WSGI application.
-from flask import Flask, render_template
+from flask import Flask, render_template, copy_current_request_context
 from flask_socketio import SocketIO, emit, disconnect
 from threading import Lock
 from databaseService import *
 
 async_mode = None
-app = Flask(__name__, static_url_path='/assets')
+app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socket_ = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
-
-# Flask constructor takes the name of
-# current module (__name__) as argument.
-app = Flask(__name__)
 
 # The route() function of the Flask class is a decorator,
 # which tells the application which URL should call
@@ -24,9 +20,21 @@ app = Flask(__name__)
 def index():
 	return render_template('index.html', async_mode=socket_.async_mode);
 
-@socket_.on('loc_changed', namespace='/geoLocation')
-def geoLocation_changed(json):
-	print("received json: "+str(json))
+@socket_.event
+def start(message):
+    print('client '+ message['data'])
+
+@socket_.event
+def loc_changed(json):
+	coordinates = json['crd']
+	print("received json: "+str(coordinates['latitude'])+" "+str(coordinates['longitude']))
+
+@socket_.event
+def disconnect_request():
+    @copy_current_request_context
+    def can_disconnect():
+        disconnect()
+    emit('stop', {data: 'client is disconneted'}, callback=can_disconnect)
 
 # def hello_world():
 # 	dbService = databaseService()

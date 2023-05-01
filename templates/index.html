@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traffic Clearance</title>
     <script src="{{ url_for('static', filename='socket.io.min.js') }}"></script>
+    <!-- <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script> -->
     <style>
         .container {
             position: absolute;
@@ -63,34 +64,38 @@
 
     <script>
         var postService;
-        let namespace = '/geoLocation';
-        var socket = io(namespace);
+        var socket;
         var watchloc;
         var startBtnDivision = document.getElementsByClassName('container-start')[0];
         var stopBtnDivision = document.getElementsByClassName('container-stop')[0];
 
-        window.onload = (e) => {
-            socket.on('connect', function() {
-                socket.emit('my_event', {data: 'connected to the SocketServer...'});
-            });
-        }
-
         function postGeolocation() {
+            socket = io();
+            socket.on('connect', function() {
+                socket.emit('start', {data: socket.id+' is connected'});
+            });
+
             if (navigator.geolocation) {
-                watchloc = navigator.geolocation.watchPosition(success, error, {enableHighAccuracy: true});
+                startBtnDivision.style.display = 'none';
+                stopBtnDivision.style.display = 'block';
+
+                watchloc = setInterval(()=> {
+                    navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true});
+                }, 1000 * 30);
+                // watchloc = navigator.geolocation.watchPosition(success, error, {enableHighAccuracy: true});
 
             } else {
                 aler("Geolocation is not supported by this browser.");
             }
+
+            socket.on('stop', function(msg) {
+                console.log(msg.data);
+            });
         }
 
         function success(pos) {
             const crd = pos.coords;
-            if (socket.id) {
-                startBtnDivision.style.display = 'none';
-                stopBtnDivision.style.display = 'block';
-                socket.emit('loc_changed', {data: crd});
-            }
+            socket.emit('loc_changed', {'crd': {'latitude': crd.latitude, 'longitude': crd.longitude}});
         }
 
         function error(err) {
@@ -98,9 +103,11 @@
         }
 
         function stopGeolocation() {
-            navigator.geolocation.clearWatch(watchloc);
+            // navigator.geolocation.clearWatch(watchloc);
+            clearInterval(watchloc);
             startBtnDivision.style.display = 'block';
             stopBtnDivision.style.display = 'none';
+            socket.emit('disconnet_request');
         }
 
     </script>
