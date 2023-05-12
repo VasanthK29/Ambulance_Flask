@@ -58,6 +58,8 @@ def loc_changed(json):
 				count = 1
 		if(count==0):
 			print("yet to arrive near signal")
+		else:
+			sleep(10)
 	#emit('output', {data: result})
 
 
