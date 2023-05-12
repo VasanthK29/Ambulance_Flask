@@ -6,6 +6,7 @@ from math import sin,cos,sqrt,atan2,radians
 from threading import Lock
 from databaseService import *
 from haversine import haversine, Unit
+from time import sleep
 
 async_mode = None
 app = Flask(__name__)
@@ -45,6 +46,7 @@ def loc_changed(json):
 	dtm = dt * 1000
 	if(dtm<100):
 		print("near rajaji hospital")
+		disconnect()
 	else:
 		for x in junction:
 			lat =float(x.latitude)
@@ -60,6 +62,7 @@ def loc_changed(json):
 			print("yet to arrive near signal")
 		else:
 			sleep(10)
+
 	#emit('output', {data: result})
 
 
