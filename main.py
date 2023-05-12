@@ -2,8 +2,10 @@
 # An object of Flask class is our WSGI application.
 from flask import Flask, render_template, copy_current_request_context
 from flask_socketio import SocketIO, emit, disconnect
+from math import sin,cos,sqrt,atan2,radians
 from threading import Lock
 from databaseService import *
+from haversine import haversine, Unit
 
 async_mode = None
 app = Flask(__name__)
@@ -28,6 +30,36 @@ def start(message):
 def loc_changed(json):
 	coordinates = json['crd']
 	print("received json: "+str(coordinates['latitude'])+" "+str(coordinates['longitude']))
+	user_lat = coordinates['latitude']
+	user_lon = coordinates['longitude']
+	rajaji_lat = 9.928169944748596
+	rajaji_lon = 78.12945702961692
+	dbService = databaseService()
+	junction = dbService.getTableJunction();
+	count = 0
+	array = [9.932213, 78.093467]
+	#pt1 = (user_lat, user_lon)
+	pt1 = (array[0],array[1])
+	pt2 = (rajaji_lat,rajaji_lon)
+	dt = haversine(point1, point2, unit=Unit.KILOMETERS)
+	dtm = distance * 1000
+	if(dtm<100):
+		print("near rajaji hospital")
+	else:
+		for x in junction:
+			lat =float(x.latitude)
+			lon = float(x.longitude)
+			point1 = (lat, lon)
+			point2 = (array[0], array[1])
+			distance = haversine(point1, point2, unit=Unit.KILOMETERS)
+			distance_in_m = distance * 1000
+			if(int(distance_in_m)<200):
+				print(x.junctionName)
+				count = 1
+		if(count==0):
+			print("yet to arrive near signal")
+	#emit('output', {data: result})
+
 
 @socket_.event
 def disconnect_request():

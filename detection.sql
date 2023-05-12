@@ -39,11 +39,20 @@ CREATE TABLE `junction` (
 --
 
 INSERT INTO `junction` (`Id`, `JName`, `lat`, `lon`) VALUES
-(1, 'kalavasal', 9.930195, 78.095655),
-(2, 'Arasaradi', 9.927637, 78.099387),
-(3, 'Simikkal', 9.924819, 78.121492),
-(4, 'Sellur', 9.93016, 78.125973),
-(5, 'Goripalayam', 9.92917, 78.128837);
+(1, 'kalavasal signal1', 9.932353, 78.096445),
+(2, 'kalavasal signal2', 9.931041, 78.094704),
+(3, 'kalavasal signal3', 9.928821, 78.09512),
+(4, 'kalavasal signal4', 9.929444, 78.096431),
+(5, 'arasaradi signal1', 9.928352, 78.097793);
+(6, 'arasaradi signal2', 9.929679, 78.100182);
+(7, 'arasaradi signal3', 9.926029, 78.100953);
+(8, 'arasaradi signal4', 9.927427, 78.10225);
+(9, 'simakkal signal1', 9.924967625425344, 78.12093031049962);
+(10, 'sellur signal1', 9.927961074704038, 78.12517624737671);
+(11, 'sellur signal2', 9.930755, 78.12464);
+(12, 'goripalayam signal1', 9.929125, 78.128315);
+(13, 'goripalayam signal1', 9.929783, 78.130182);
+
 
 --
 -- Indexes for dumped tables
