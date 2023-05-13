@@ -43,14 +43,14 @@ INSERT INTO `junction` (`Id`, `JName`, `lat`, `lon`) VALUES
 (2, 'kalavasal signal2', 9.931041, 78.094704),
 (3, 'kalavasal signal3', 9.928821, 78.09512),
 (4, 'kalavasal signal4', 9.929444, 78.096431),
-(5, 'arasaradi signal1', 9.928352, 78.097793);
-(6, 'arasaradi signal2', 9.929679, 78.100182);
-(7, 'arasaradi signal3', 9.926029, 78.100953);
-(8, 'arasaradi signal4', 9.927427, 78.10225);
-(9, 'simakkal signal1', 9.924967625425344, 78.12093031049962);
-(10, 'sellur signal1', 9.927961074704038, 78.12517624737671);
-(11, 'sellur signal2', 9.930755, 78.12464);
-(12, 'goripalayam signal1', 9.929125, 78.128315);
+(5, 'arasaradi signal1', 9.928352, 78.097793),
+(6, 'arasaradi signal2', 9.929679, 78.100182),
+(7, 'arasaradi signal3', 9.926029, 78.100953),
+(8, 'arasaradi signal4', 9.927427, 78.10225),
+(9, 'simakkal signal1', 9.924967625425344, 78.12093031049962),
+(10, 'sellur signal1', 9.927961074704038, 78.12517624737671),
+(11, 'sellur signal2', 9.930755, 78.12464),
+(12, 'goripalayam signal1', 9.929125, 78.128315),
 (13, 'goripalayam signal1', 9.929783, 78.130182);
 
 
