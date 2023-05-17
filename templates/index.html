@@ -72,14 +72,14 @@
         function postGeolocation() {
             socket = io();
             socket.on('connect', function() {
-                socket.emit('start', {data: socket.id+' is connected'});
+                socket.emit('start', {data: socket.id});
             });
 
             if (navigator.geolocation) {
                 startBtnDivision.style.display = 'none';
                 stopBtnDivision.style.display = 'block';
 
-                watchloc = setInterval(()=> {
+                watchloc = setTimeout(()=> {
                     navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy: true});
                 }, 1000 * 30);
                 // watchloc = navigator.geolocation.watchPosition(success, error, {enableHighAccuracy: true});
@@ -104,7 +104,7 @@
 
         function stopGeolocation() {
             // navigator.geolocation.clearWatch(watchloc);
-            clearInterval(watchloc);
+            clearTimeout(watchloc);
             startBtnDivision.style.display = 'block';
             stopBtnDivision.style.display = 'none';
             socket.emit('disconnet_request');
